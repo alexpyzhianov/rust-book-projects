@@ -37,16 +37,19 @@ fn main() {
             .read_line(&mut guess)
             .expect("Please enter a number no longer than two digits");
 
-        let guess: i32 = guess.trim().parse().expect("Not a valid number");
+        let guess: i32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         match guess.cmp(&target) {
             Ordering::Less => {
                 left_clamp = guess;
-                println!("Too low!")
+                println!("^^^- nope, a bit more -^^^")
             }
             Ordering::Greater => {
                 right_clamp = guess;
-                println!("Too high!")
+                println!("vvv- nope, a bit less -vvv")
             }
             Ordering::Equal => {
                 println!("Correct!");
